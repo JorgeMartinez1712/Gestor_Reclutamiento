@@ -99,22 +99,22 @@ const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
         message={notificationMessage}
         onClose={() => setIsNotificationOpen(false)}
       />
-      <div className="w-full max-w-md bg-white/30 backdrop-blur-sm rounded-lg shadow-xl border border-gray-800 p-6">
-        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl text-center mb-6">
+      <div className="w-full max-w-md bg-white/30 backdrop-blur-sm rounded-lg shadow-xl border border-fuchsia-900 p-6">
+        <h1 className="text-xl font-bold leading-tight tracking-tight text-fuchsia-900 md:text-2xl text-center mb-6">
           {step === 1 && !emailSent ? 'Recuperar Contraseña' : 'Establecer Nueva Contraseña'}
         </h1>
 
         {step === 1 && !emailSent ? (
           <form className="space-y-4" onSubmit={handleSubmitEmail}>
             <div>
-              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
+              <label htmlFor="email" className="block mb-2 text-sm font-medium text-fuchsia-900">
                 Correo Electrónico
               </label>
               <input
                 type="email"
                 id="email"
                 name="email"
-                className="border border-gray-800 text-gray-800 rounded-lg block w-full p-2.5 focus:outline-none"
+                className="border border-fuchsia-800 text-fuchsia-900 rounded-lg block w-full p-2.5 focus:outline-none"
                 placeholder="ejemplo@mail.com"
                 required
                 value={email}

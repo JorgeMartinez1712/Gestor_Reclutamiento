@@ -88,7 +88,7 @@ const Sidebar = ({ isOpen, isCollapsed, toggleCollapse }) => {
             </div>
             <button
                 onClick={toggleCollapse}
-                className="absolute top-1/2 -right-5 transform -translate-y-1/2 bg-fuchsia-300 text-fuchsia-900 rounded-full p-2 shadow-md cursor-pointer"
+                className="absolute top-1/2 -right-5 transform -translate-y-1/2 bg-fuchsia-200 text-fuchsia-900 rounded-full p-2 shadow-md cursor-pointer"
             >
                 <i className={`bi ${isCollapsed ? 'bi-arrow-right' : 'bi-arrow-left'}`}></i>
             </button>
