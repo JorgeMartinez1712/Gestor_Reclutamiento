@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useLogin from '../../hooks/useLogin';
 import ErrorNotification from '../common/ErrorNotification';
 import SuccessNotification from '../common/SuccessNotification';
-import PasswordRequirements from '../register/PasswordRequeriments';
+import PasswordRequirements from '../common/PasswordRequeriments';
 import backgroundImage from '/assets/fondo_login.jpg';
 
 const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
@@ -97,19 +97,19 @@ const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
       className="relative min-h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-900/90 to-slate-950/95" />
+      <div className="absolute inset-0 bg-gradient-to-br from-surface-start/95 via-surface-mid/90 to-surface-end/95" />
       <div className="absolute inset-0 backdrop-blur-[2px]" />
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12 px-6 lg:px-16 py-12 min-h-screen text-white">
-        <div className="text-white max-w-xl">
-          <p className="uppercase tracking-[0.3em] text-sm text-white/70 mb-4">Recupera tu acceso</p>
+      <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12 px-6 lg:px-16 py-12 min-h-screen text-text-base">
+        <div className="text-text-base max-w-xl">
+          <p className="uppercase tracking-[0.3em] text-sm text-text-muted mb-4">Recupera tu acceso</p>
           <h2 className="text-3xl md:text-5xl font-semibold leading-tight mb-6">
             Restablece tu contraseña y vuelve a impulsar cada proceso de selección.
           </h2>
-          <p className="text-base md:text-lg text-white/80 leading-relaxed">
+          <p className="text-base md:text-lg text-text-muted leading-relaxed">
             Mantén a tu equipo alineado, retoma el análisis de candidatos y continúa tomando decisiones informadas en minutos.
           </p>
         </div>
-        <div className="w-full max-w-md bg-white/10 border border-white/15 shadow-2xl rounded-2xl p-8 backdrop-blur-2xl">
+        <div className="w-full max-w-md bg-glass-card border border-glass-border shadow-2xl rounded-2xl p-8 backdrop-blur-2xl text-text-base">
           <NotificationComponent
             isOpen={isNotificationOpen}
             message={notificationMessage}
@@ -122,14 +122,14 @@ const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
           {step === 1 && !emailSent ? (
             <form className="space-y-4" onSubmit={handleSubmitEmail}>
               <div>
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-white/80">
+                <label htmlFor="email" className="block mb-2 text-sm font-medium text-text-muted">
                   Correo Electrónico
                 </label>
                 <input
                   type="email"
                   id="email"
                   name="email"
-                  className="border border-white/20 bg-white/5 text-white placeholder-white/60 rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+                  className="border border-glass-border bg-glass-card text-text-base placeholder-white/60 rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
                   placeholder="ejemplo@mail.com"
                   required
                   value={email}
@@ -138,7 +138,7 @@ const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-400 hover:to-cyan-400 focus:ring-4 focus:outline-none focus:ring-cyan-300/40 font-medium rounded-lg text-sm px-5 py-3 text-center"
+                className="w-full text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:opacity-90 focus:ring-4 focus:outline-none focus:ring-brand-secondary/40 font-medium rounded-lg text-sm px-5 py-3 text-center"
                 disabled={loading}
               >
                 {loading ? <FaSpinner className="animate-spin mx-auto" /> : 'Enviar Enlace'}
@@ -146,8 +146,8 @@ const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
             </form>
           ) : step === 1 && emailSent ? (
             <div className="text-center p-4">
-              <h2 className="text-lg font-semibold text-white mb-4">¡Enlace Enviado!</h2>
-              <p className="text-white/70 mb-6">
+              <h2 className="text-lg font-semibold text-text-base mb-4">¡Enlace Enviado!</h2>
+              <p className="text-text-muted mb-6">
                 Hemos enviado un enlace de restablecimiento de contraseña a <span className="font-semibold">{email}</span>. Revisa tu bandeja de
                 entrada y sigue las instrucciones para continuar.
               </p>
@@ -156,14 +156,14 @@ const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
             <form className="space-y-4" onSubmit={handleSubmitReset}>
               {!initialToken && (
                 <div className="mb-4">
-                  <label htmlFor="token" className="block mb-2 text-sm font-medium text-white/80">
+                  <label htmlFor="token" className="block mb-2 text-sm font-medium text-text-muted">
                     Código de Verificación
                   </label>
                   <input
                     type="text"
                     id="token"
                     name="token"
-                    className="border border-white/20 bg-white/5 text-white placeholder-white/60 rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+                    className="border border-glass-border bg-glass-card text-text-base placeholder-white/60 rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
                     placeholder="Código"
                     required
                     value={token}
@@ -174,14 +174,14 @@ const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
 
               {!initialEmail && (
                 <div className="mb-4">
-                  <label htmlFor="email" className="block mb-2 text-sm font-medium text-white/80">
+                  <label htmlFor="email" className="block mb-2 text-sm font-medium text-text-muted">
                     Correo Electrónico
                   </label>
                   <input
                     type="email"
                     id="email"
                     name="email"
-                    className="border border-white/20 bg-white/5 text-white placeholder-white/60 rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+                    className="border border-glass-border bg-glass-card text-text-base placeholder-white/60 rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
                     placeholder="ejemplo@mail.com"
                     required
                     value={email}
@@ -192,7 +192,7 @@ const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
               )}
 
               <div className="relative">
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-white/80">
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-text-muted">
                   Nueva Contraseña
                 </label>
                 <input
@@ -200,18 +200,18 @@ const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
                   id="password"
                   name="password"
                   placeholder="••••••••"
-                  className="border border-white/20 bg-white/5 text-white placeholder-white/60 rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+                  className="border border-glass-border bg-glass-card text-text-base placeholder-white/60 rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <i
-                  className={`absolute right-4 top-11 cursor-pointer bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} text-white`}
+                  className={`absolute right-4 top-11 cursor-pointer bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} text-text-muted`}
                   onClick={togglePasswordVisibility}
                 ></i>
               </div>
               <div className="relative">
-                <label htmlFor="passwordConfirmation" className="block mb-2 text-sm font-medium text-white/80">
+                <label htmlFor="passwordConfirmation" className="block mb-2 text-sm font-medium text-text-muted">
                   Verificar Contraseña
                 </label>
                 <input
@@ -219,20 +219,20 @@ const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
                   id="passwordConfirmation"
                   name="passwordConfirmation"
                   placeholder="••••••••"
-                  className="border border-white/20 bg-white/5 text-white placeholder-white/60 rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+                  className="border border-glass-border bg-glass-card text-text-base placeholder-white/60 rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
                   required
                   value={passwordConfirmation}
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
                 />
                 <i
-                  className={`absolute right-4 top-11 cursor-pointer bi ${showConfirmationPassword ? 'bi-eye-slash' : 'bi-eye'} text-white`}
+                  className={`absolute right-4 top-11 cursor-pointer bi ${showConfirmationPassword ? 'bi-eye-slash' : 'bi-eye'} text-text-muted`}
                   onClick={toggleConfirmationPasswordVisibility}
                 ></i>
               </div>
               <PasswordRequirements validations={validations} />
               <button
                 type="submit"
-                className="w-full text-white bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-400 hover:to-cyan-400 focus:ring-4 focus:outline-none focus:ring-cyan-300/40 font-medium rounded-lg text-sm px-5 py-3 text-center mt-2"
+                className="w-full text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:opacity-90 focus:ring-4 focus:outline-none focus:ring-brand-secondary/40 font-medium rounded-lg text-sm px-5 py-3 text-center mt-2"
                 disabled={loading || !isPasswordValid}
               >
                 {loading ? <FaSpinner className="animate-spin mx-auto" /> : 'Restablecer Contraseña'}
@@ -240,9 +240,9 @@ const ForgotPasswordForm = ({ initialEmail = '', initialToken = '' }) => {
             </form>
           )}
 
-          <p className="text-sm font-light text-white/70 text-center mt-6">
+          <p className="text-sm font-light text-text-muted text-center mt-6">
             ¿Recordaste tu contraseña?{' '}
-            <Link to="/login" className="text-sm font-medium text-white hover:underline">
+            <Link to="/login" className="text-sm font-medium text-text-base hover:underline">
               Iniciar sesión
             </Link>
           </p>

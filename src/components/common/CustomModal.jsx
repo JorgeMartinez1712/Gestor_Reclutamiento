@@ -6,18 +6,19 @@ const CustomModal = ({ isOpen, onClose, children, title }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
-      overlayClassName="fixed inset-0 bg-black/30 flex items-center justify-center z-[60]"
-      className="bg-white w-full max-w-[90%] md:max-w-2xl lg:max-w-4xl rounded-lg shadow-lg p-4 relative z-[70] mx-4 md:mx-0"
+      overlayClassName="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[60] px-4"
+      className="w-full max-w-[90%] md:max-w-2xl lg:max-w-4xl rounded-2xl border border-glass-border bg-glass-card backdrop-blur-2xl shadow-[0_20px_60px_rgba(2,6,23,0.65)] p-6 relative z-[70]"
     >
-      <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-        {title && <h2 className="text-lg font-semibold text-gray-700">{title}</h2>}
+      <div className="flex items-center justify-between pb-4 border-b border-glass-border/60">
+        {title && <h2 className="text-xl font-semibold text-text-base">{title}</h2>}
         <button
           onClick={onClose}
-          className="text-gray-500 hover:text-gray-700 bi bi-x text-2xl"
+          className="text-text-muted hover:text-text-base bi bi-x text-2xl transition-colors"
+          aria-label="Cerrar"
         >
         </button>
       </div>
-      <div className="mt-4 max-h-[80vh] overflow-y-auto">
+      <div className="mt-4 max-h-[80vh] overflow-y-auto text-text-base">
         {children}
       </div>
     </Modal>

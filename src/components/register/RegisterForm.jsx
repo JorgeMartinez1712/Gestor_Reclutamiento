@@ -1,25 +1,22 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import PasswordRequirements from './PasswordRequeriments';
+import PasswordRequirements from '../common/PasswordRequeriments';
 import useRegisterUser from '../../hooks/useRegisterUser';
 import SuccessNotification from '../common/SuccessNotification';
-import ErrorNotification from '../common/ErrorNotification'; 
+import ErrorNotification from '../common/ErrorNotification';
 import { FaSpinner } from 'react-icons/fa';
 import backgroundImage from '/assets/fondo_login.jpg';
 
 const RegisterForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '', 
+    name: '',
     email: '',
-    phone_number: '', 
+    phone_number: '',
     password: '',
-    password_confirmation: '', 
-    user_type_id: 1, 
-    status_id: 1 
+    password_confirmation: '',
+    user_type_id: 1,
+    status_id: 1,
   });
   const [passwordValidations, setPasswordValidations] = useState({
     hasUpperCase: false,
@@ -27,6 +24,9 @@ const RegisterForm = () => {
     minLength: false,
     passwordsMatch: false,
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { registerUser, loading, error } = useRegisterUser();
 
@@ -36,6 +36,7 @@ const RegisterForm = () => {
       hasNumber: /\d/.test(password),
       minLength: password.length >= 8,
     };
+
     setPasswordValidations((prev) => ({
       ...prev,
       ...validations,
@@ -50,6 +51,7 @@ const RegisterForm = () => {
     if (name === 'password') {
       validatePassword(value);
     }
+
     if (name === 'password_confirmation') {
       setPasswordValidations((prev) => ({
         ...prev,
@@ -62,17 +64,7 @@ const RegisterForm = () => {
     e.preventDefault();
 
     try {
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        phone_number: formData.phone_number,
-        password: formData.password, 
-        password_confirmation: formData.password_confirmation, 
-        user_type_id: formData.user_type_id,
-        status_id: formData.status_id
-      };
-
-      const response = await registerUser(payload);
+      const response = await registerUser(formData);
 
       if (response) {
         setIsModalOpen(true);
@@ -86,29 +78,35 @@ const RegisterForm = () => {
     }
   };
 
+  const canSubmit =
+    passwordValidations.hasUpperCase &&
+    passwordValidations.hasNumber &&
+    passwordValidations.minLength &&
+    passwordValidations.passwordsMatch;
+
   return (
     <section
       className="relative min-h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0d1f3b]/90 via-[#0a1a30]/85 to-black/90" />
+      <div className="absolute inset-0 bg-gradient-to-br from-surface-start/95 via-surface-mid/90 to-surface-end/95" />
       <div className="absolute inset-0 backdrop-blur-[2px]" />
       <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12 px-6 lg:px-16 py-12 min-h-screen">
-        <div className="text-white max-w-xl">
-          <p className="uppercase tracking-[0.3em] text-sm text-white/70 mb-4">Experiencia de registro</p>
+        <div className="text-text-base max-w-xl">
+          <p className="uppercase tracking-[0.3em] text-sm text-text-muted mb-4">Experiencia de registro</p>
           <h2 className="text-3xl md:text-5xl font-semibold leading-tight mb-6">
-            DiseÃ±a procesos de selecciÃ³n colaborativos desde el primer clic.
+            Diseña procesos de selección colaborativos desde el primer clic.
           </h2>
-          <p className="text-base md:text-lg text-white/80 leading-relaxed">
-            Configura tu panel personal, comparte vacantes con tu equipo y mantÃ©n trazabilidad total del pipeline. Un registro
-            te acerca a contrataciones mÃ¡s estratÃ©gicas.
+          <p className="text-base md:text-lg text-text-muted leading-relajada">
+            Configura tu panel personal, comparte vacantes con tu equipo y mantén trazabilidad total del pipeline. Un
+            registro te acerca a contrataciones más estratégicas.
           </p>
         </div>
-        <div className="w-full max-w-md bg-white/60 border border-white/30 backdrop-blur-xl shadow-2xl rounded-2xl p-8">
-          <h1 className="text-2xl font-semibold text-oscuro text-center">Crear una cuenta</h1>
+        <div className="w-full max-w-md bg-glass-card border border-glass-border backdrop-blur-2xl shadow-2xl rounded-2xl p-8 text-text-base">
+          <h1 className="text-2xl font-semibold text-center">Crear una cuenta</h1>
           <form className="space-y-4 mt-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-oscuro">
+              <label htmlFor="name" className="block text-sm font-medium text-text-muted">
                 Nombre
               </label>
               <input
@@ -117,14 +115,14 @@ const RegisterForm = () => {
                 name="name"
                 maxLength="50"
                 required
-                className="border border-oscuro/60 text-oscuro rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-claro"
+                className="border border-glass-border bg-glass-card text-text-base rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
                 value={formData.name}
                 onChange={handleChange}
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-oscuro">
-                Correo ElectrÃ³nico
+              <label htmlFor="email" className="block text-sm font-medium text-text-muted">
+                Correo Electrónico
               </label>
               <input
                 type="email"
@@ -132,14 +130,14 @@ const RegisterForm = () => {
                 name="email"
                 maxLength="50"
                 required
-                className="border border-oscuro/60 text-oscuro rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-claro"
+                className="border border-glass-border bg-glass-card text-text-base rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
                 value={formData.email}
                 onChange={handleChange}
               />
             </div>
             <div>
-              <label htmlFor="phone_number" className="block text-sm font-medium text-oscuro">
-                NÃºmero de TelÃ©fono
+              <label htmlFor="phone_number" className="block text-sm font-medium text-text-muted">
+                Número de Teléfono
               </label>
               <input
                 type="text"
@@ -147,14 +145,14 @@ const RegisterForm = () => {
                 name="phone_number"
                 maxLength="15"
                 required
-                className="border border-oscuro/60 text-oscuro rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-claro"
+                className="border border-glass-border bg-glass-card text-text-base rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
                 value={formData.phone_number}
                 onChange={handleChange}
               />
             </div>
             <div className="relative">
-              <label htmlFor="password" className="block text-sm font-medium text-oscuro">
-                ContraseÃ±a
+              <label htmlFor="password" className="block text-sm font-medium text-text-muted">
+                Contraseña
               </label>
               <div className="relative">
                 <input
@@ -163,13 +161,13 @@ const RegisterForm = () => {
                   name="password"
                   maxLength="50"
                   required
-                  className="border border-oscuro/60 text-oscuro rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-claro"
+                  className="border border-glass-border bg-glass-card text-text-base rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
                   value={formData.password}
                   onChange={handleChange}
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-3 flex items-center text-oscuro"
+                  className="absolute inset-y-0 right-3 flex items-center text-text-muted"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   <i className={`bi bi-eye${showPassword ? '-slash' : ''}`}></i>
@@ -178,8 +176,8 @@ const RegisterForm = () => {
               <PasswordRequirements validations={passwordValidations} />
             </div>
             <div className="relative">
-              <label htmlFor="password_confirmation" className="block text-sm font-medium text-oscuro">
-                Repetir ContraseÃ±a
+              <label htmlFor="password_confirmation" className="block text-sm font-medium text-text-muted">
+                Repetir Contraseña
               </label>
               <div className="relative">
                 <input
@@ -188,13 +186,13 @@ const RegisterForm = () => {
                   name="password_confirmation"
                   maxLength="50"
                   required
-                  className="border border-oscuro/60 text-oscuro rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-claro"
+                  className="border border-glass-border bg-glass-card text-text-base rounded-lg block w-full p-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
                   value={formData.password_confirmation}
                   onChange={handleChange}
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-3 flex items-center text-oscuro"
+                  className="absolute inset-y-0 right-3 flex items-center text-text-muted"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   <i className={`bi bi-eye${showConfirmPassword ? '-slash' : ''}`}></i>
@@ -203,30 +201,19 @@ const RegisterForm = () => {
             </div>
             <button
               type="submit"
-              className={`w-full px-4 py-3 font-medium text-white ${passwordValidations.hasUpperCase &&
-                passwordValidations.hasNumber &&
-                passwordValidations.minLength &&
-                passwordValidations.passwordsMatch
-                ? 'bg-oscuro hover:bg-hover'
-                : 'bg-oscuro/60 cursor-not-allowed'
-                } rounded-lg focus:outline-none focus:ring-4 focus:ring-claro`}
-              disabled={
-                !(
-                  passwordValidations.hasUpperCase &&
-                  passwordValidations.hasNumber &&
-                  passwordValidations.minLength &&
-                  passwordValidations.passwordsMatch
-                ) || loading 
-              }
+              className={`w-full px-4 py-3 font-medium text-text-base ${
+                canSubmit ? 'bg-gradient-to-r from-brand-primary to-brand-secondary' : 'bg-glass-card cursor-not-allowed'
+              } rounded-lg focus:outline-none focus:ring-4 focus:ring-brand-secondary/40`}
+              disabled={!canSubmit || loading}
             >
               {loading ? <FaSpinner className="animate-spin mx-auto" /> : 'Crear Cuenta'}
             </button>
           </form>
-          {error && <p className="text-sm text-red-500 text-center mt-3">{error}</p>} 
-          <p className="text-sm font-light text-oscuro mt-6 text-center">
-            Â¿Ya tienes una cuenta?{' '}
-            <Link to="/login" className="font-medium text-oscuro hover:underline">
-              Inicia sesiÃ³n
+          {error && <p className="text-sm text-red-400 text-center mt-3">{error}</p>}
+          <p className="text-sm font-light text-text-muted mt-6 text-center">
+            ¿Ya tienes una cuenta?{' '}
+            <Link to="/login" className="font-medium text-text-base hover:underline">
+              Inicia sesión
             </Link>
           </p>
         </div>
@@ -236,10 +223,7 @@ const RegisterForm = () => {
         onClose={() => setIsModalOpen(false)}
         message="Usuario registrado exitosamente"
       />
-      <ErrorNotification
-        isOpen={!!error} 
-        message={error} 
-      />
+      <ErrorNotification isOpen={!!error} message={error} />
     </section>
   );
 };

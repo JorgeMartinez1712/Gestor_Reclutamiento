@@ -2,19 +2,40 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-bg: #f4f7ff;
-  --color-claro: #5b47ff; /* tono claro derivado de #1B059C */
-  --color-oscuro: #1B059C; /* color primario solicitado */
-  --color-hover: #12046f; /* hover más oscuro */
+  --color-app-bg: #020617;
+  --color-surface: rgba(15,23,42,0.65);
+  --color-surface-strong: rgba(15,23,42,0.85);
+  --color-border-soft: rgba(148,163,184,0.25);
+  --color-border-strong: rgba(248,250,252,0.2);
+  --color-text-base: #f8fafc;
+  --color-text-muted: rgba(248,250,252,0.7);
+  --color-brand-primary: #6366f1;
+  --color-brand-primary-soft: rgba(99,102,241,0.2);
+  --color-brand-secondary: #0ea5e9;
+  --color-brand-secondary-soft: rgba(14,165,233,0.2);
+  --color-brand-accent: #fbbf24;
+  --color-status-success: #34d399;
+  --color-status-success-soft: rgba(52,211,153,0.18);
+  --color-status-warning: #f8c15c;
+  --color-status-warning-soft: rgba(248,193,92,0.18);
+  --color-glass-card: rgba(15,23,42,0.55);
+  --color-glass-card-strong: rgba(2,6,23,0.8);
+  --color-glass-border: rgba(255,255,255,0.12);
+  --color-surface-start: #0b1120;
+  --color-surface-mid: #080b16;
+  --color-surface-end: #020617;
 }
 
 :root {
-  --input-focus-shadow: 0 6px 18px rgba(27,5,156,0.08);
+  --input-focus-shadow: 0 10px 35px rgba(2,6,23,0.35);
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   height: 100%;
+  background-color: var(--color-app-bg);
+  color: var(--color-text-base);
 }

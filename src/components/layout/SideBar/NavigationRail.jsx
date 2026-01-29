@@ -45,7 +45,7 @@ const NavigationRail = ({ isOpen }) => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 z-50 flex h-full w-72 flex-col border-r border-white/10 bg-slate-950 text-white/90 transition-transform duration-300 ${
+      className={`fixed top-0 left-0 z-50 flex h-full w-72 flex-col border-r border-glass-border bg-app-bg text-text-base transition-transform duration-300 ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
@@ -57,10 +57,10 @@ const NavigationRail = ({ isOpen }) => {
             <Link
               key={action.to}
               to={action.to}
-              className="rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-white/80 transition hover:border-white/40"
+              className="rounded-2xl border border-glass-border bg-glass-card px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-text-muted transition hover:border-brand-primary hover:text-text-base"
             >
               <div className="flex items-center gap-2">
-                <i className={`${action.icon} text-xs`} />
+                <i className={`${action.icon} text-xs text-brand-secondary`} />
                 <span className="leading-tight">{action.label}</span>
               </div>
             </Link>

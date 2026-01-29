@@ -18,7 +18,7 @@ const HomePage = () => {
 
   const mockData = {
     kpis: [
-      { id: 'vacancies', label: 'Vacantes Activas', value: 18, badge: '+2 nuevas', caption: 'Distribuidas en 6 áreas' },
+      { id: 'vacancies', label: 'Vacantes Activas', value: 18, caption: 'Distribuidas en 6 áreas' },
       { id: 'candidates', label: 'Total Candidatos', value: 482, caption: 'Acumulado en los últimos 30 días' },
       { id: 'interviews', label: 'Entrevistas Agendadas', value: 11, caption: 'Prioridad para hoy' },
       { id: 'closing', label: 'Tiempo de Cierre', value: '14 días', caption: 'Promedio del último mes' },
@@ -148,9 +148,9 @@ const HomePage = () => {
   };
 
   const statusStyles = {
-    Nuevo: 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30',
-    'En Revisión': 'bg-amber-500/15 text-amber-300 border border-amber-500/30',
-    Entrevista: 'bg-sky-500/15 text-sky-300 border border-sky-500/30',
+    Nuevo: 'bg-status-success-soft text-status-success border border-status-success',
+    'En Revisión': 'bg-status-warning-soft text-status-warning border border-status-warning',
+    Entrevista: 'bg-brand-secondary-soft text-brand-secondary border border-brand-secondary',
   };
 
   const sourceIconMap = {
@@ -158,81 +158,84 @@ const HomePage = () => {
     Instagram: { icon: 'bi-instagram', color: 'text-[#E1306C]' },
   };
 
+  const glassPanel = 'rounded-2xl border border-glass-border bg-glass-card backdrop-blur-xl shadow-[0_20px_60px_rgba(2,6,23,0.65)]';
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white px-6 py-8 lg:px-12 space-y-8">
+    <div className="min-h-screen bg-app-bg text-text-base px-6 py-8 lg:px-12 space-y-8">
       <header className="space-y-1">
-        <p className="text-sm uppercase tracking-[0.3em] text-white/50">Panel de reclutamiento</p>
+        <p className="text-sm uppercase tracking-[0.3em] text-text-muted">Panel de reclutamiento</p>
         <h1 className="text-3xl lg:text-4xl font-semibold">¡Hola, {firstName}! Así va el talento hoy</h1>
-        <p className="text-white/60">{formattedDate}</p>
+        <p className="text-text-muted mt-3 mb-3">{formattedDate}</p>
       </header>
 
       <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         {mockData.kpis.map((kpi) => (
-          <div key={kpi.id} className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-lg shadow-[#0b061f]/40">
-            <p className="text-sm uppercase tracking-wide text-white/60">{kpi.label}</p>
-            <div className="flex items-end justify-between gap-4 mt-3">
-              <p className="text-3xl font-semibold">{kpi.value}</p>
+          <div key={kpi.id} className={`${glassPanel} p-6`}>
+            <p className="text-sm uppercase tracking-wide text-text-muted">{kpi.label}</p>
+            <div className="flex items-center gap-4 mt-3">
+              <p className="flex-1 text-3xl font-semibold text-center">{kpi.value}</p>
               {kpi.badge && (
-                <span className="text-xs font-medium px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-status-success-soft text-status-success border border-status-success">
                   {kpi.badge}
                 </span>
               )}
             </div>
-            <p className="text-sm text-white/60 mt-3">{kpi.caption}</p>
+            <p className="text-sm text-text-muted mt-3">{kpi.caption}</p>
           </div>
         ))}
       </section>
 
       <section className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <div className="lg:col-span-3 bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-lg shadow-[#0b061f]/40 h-[360px]">
+        <div className={`lg:col-span-3 ${glassPanel} p-6 h-[360px]`}>
           <Bar data={funnelData} options={funnelOptions} />
         </div>
-        <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-lg shadow-[#0b061f]/40 h-[360px] flex flex-col items-center justify-center">
-          <div className="w-full max-w-xs">
-            <Doughnut data={sourceData} options={doughnutOptions} />
+        <div className={`lg:col-span-2 ${glassPanel} p-6 min-h-[360px] flex flex-col`}>
+          <div className="flex-1 w-full flex items-center justify-center">
+            <div className="w-full max-w-xs">
+              <Doughnut data={sourceData} options={doughnutOptions} />
+            </div>
           </div>
           <div className="mt-6 w-full space-y-3">
             {mockData.talentSources.map((source) => (
               <div key={source.label} className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full" style={{ backgroundColor: source.label === 'LinkedIn' ? '#0A66C2' : '#E1306C' }}></span>
-                  <span className="text-white/70">{source.label}</span>
+                  <span className="text-text-muted">{source.label}</span>
                 </div>
-                <span className="text-white font-medium">{source.value}%</span>
+                <span className="text-text-base font-medium">{source.value}%</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-lg shadow-[#0b061f]/40">
+      <section className={`${glassPanel} p-6`}>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h2 className="text-2xl font-semibold">Candidatos Recientes</h2>
-            <p className="text-white/60">Seguimiento del pipeline actualizado cada hora</p>
           </div>
-          <button className="px-4 py-2 text-sm font-medium rounded-full border border-white/20 text-white/80 hover:bg-white/10 transition-colors">
+          <button className="px-4 py-2 text-sm font-medium rounded-full border border-glass-border text-text-muted hover:text-text-base hover:bg-glass-card transition-colors">
             Ver todos
           </button>
         </div>
         <div className="mt-6 space-y-4">
           {mockData.recentCandidates.map((candidate) => (
-            <div key={candidate.id} className="flex items-center justify-between gap-4 bg-white/5 border border-white/10 rounded-2xl p-4">
+            <div key={candidate.id} className={`flex items-center justify-between gap-4 ${glassPanel} p-4`}>
               <div className="flex items-center gap-4">
                 <img src={candidate.avatar} alt={candidate.name} className="w-12 h-12 rounded-full object-cover" />
                 <div>
                   <p className="font-medium">{candidate.name}</p>
-                  <p className="text-sm text-white/60">{candidate.role}</p>
+                  <p className="text-sm text-text-muted">{candidate.role}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 text-white/70 text-sm">
-                  <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                <div className="flex items-center gap-2 text-text-muted text-sm">
+                  <span className="w-8 h-8 rounded-full border border-glass-border flex items-center justify-center">
                     <i className={`bi ${sourceIconMap[candidate.source].icon} ${sourceIconMap[candidate.source].color} text-lg`}></i>
                   </span>
                   <span className="uppercase tracking-wide text-xs">{candidate.source}</span>
                 </div>
-                <span className={`px-4 py-1.5 text-xs font-semibold rounded-full ${statusStyles[candidate.status] || 'bg-white/10 text-white'}`}>
+                <span className={`px-4 py-1.5 text-xs font-semibold rounded-full ${statusStyles[candidate.status] || 'bg-glass-card text-text-base border border-glass-border'}`}>
                   {candidate.status}
                 </span>
               </div>

@@ -20,7 +20,9 @@ const NavigationCluster = ({ cluster, isCollapsed }) => {
     setIsExpanded((prev) => !prev);
   };
 
-  const accent = hasActiveItem ? 'border-white/40 bg-white/10 text-white' : 'border-white/10 text-white/80';
+  const accent = hasActiveItem
+    ? 'border-brand-primary bg-glass-card text-text-base'
+    : 'border-glass-border text-text-muted';
 
   return (
     <div className="space-y-2">
@@ -33,7 +35,9 @@ const NavigationCluster = ({ cluster, isCollapsed }) => {
       >
         <span
           className={`flex h-10 w-10 items-center justify-center rounded-2xl ${
-            hasActiveItem ? 'bg-white/20 text-white' : 'bg-white/5 text-white/70'
+            hasActiveItem
+              ? 'bg-brand-primary-soft text-brand-primary'
+              : 'bg-glass-card text-text-muted'
           }`}
         >
           <i className={`${cluster.icon} text-lg`} />
@@ -41,16 +45,16 @@ const NavigationCluster = ({ cluster, isCollapsed }) => {
         {!isCollapsed && (
           <div className="flex-1 text-left">
             <p className="text-sm font-semibold leading-tight">{cluster.title}</p>
-            <p className="text-xs text-white/60">{cluster.summary}</p>
+            <p className="text-xs text-text-muted">{cluster.summary}</p>
           </div>
         )}
         {!isCollapsed && cluster.meta && (
-          <span className="rounded-full border border-white/20 px-2 py-0.5 text-[11px] text-white/70">
+          <span className="rounded-full border border-glass-border px-2 py-0.5 text-[11px] text-text-muted">
             {cluster.meta}
           </span>
         )}
         {!isCollapsed && (
-          <i className={`bi text-sm ${isExpanded ? 'bi-chevron-up' : 'bi-chevron-down'} text-white/70`} />
+          <i className={`bi text-sm ${isExpanded ? 'bi-chevron-up' : 'bi-chevron-down'} text-text-muted`} />
         )}
       </button>
 
