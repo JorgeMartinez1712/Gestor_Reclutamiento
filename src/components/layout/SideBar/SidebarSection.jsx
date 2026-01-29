@@ -1,58 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import SidebarItem from './SidebarItem';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const SidebarSection = ({ title, items, isCollapsed, icon, titleIcon }) => {
-    const [isSectionCollapsed, setIsSectionCollapsed] = useState(false);
-    const titleIconColor = 'text-oscuro';
-    const activeSectionColor = 'text-oscuro';
+const SidebarSection = ({ title, description, items }) => {
     const location = useLocation();
-    const isAnyItemActive = items.some(item => location.pathname.startsWith(item.to));
 
-    const sectionIconClass = isAnyItemActive ? `${titleIcon} ${activeSectionColor} ${isCollapsed ? 'text-lg' : 'mr-2'}` : `${icon} ${titleIconColor} ${isCollapsed ? 'text-lg' : 'mr-2'}`;
-
-    useEffect(() => {
-        if (!isAnyItemActive) {
-            setIsSectionCollapsed(false);
+    const isActive = (path, exact) => {
+        if (exact) {
+            return location.pathname === path;
         }
-    }, [location.pathname, isAnyItemActive]);
+        return location.pathname === path || location.pathname.startsWith(`${path}/`);
+    };
 
     return (
-        <div className="mt-4">
-            <div
-                className={`group flex items-center cursor-pointer p-2 rounded-md hover:bg-claro transition-colors duration-200 ${
-                    isCollapsed ? 'justify-center' : 'justify-between'
-                }`}
-                onClick={() => setIsSectionCollapsed(!isSectionCollapsed)}
-            >
-                <i className={sectionIconClass}></i>
-                {!isCollapsed && <h3 className="text-base font-medium text-oscuro flex-grow">{title}</h3>}
-                {!isCollapsed && <i
-                    className={`bi text-oscuro text-sm transition-transform duration-200 ${
-                        isSectionCollapsed ? 'bi-chevron-down' : 'bi-chevron-up'
-                    }`}
-                >
-                </i>}
+        <section className="mt-10 first:mt-8">
+            <div>
+                <p className="text-[11px] uppercase tracking-[0.35em] text-white/50">{title}</p>
+                {description && <p className="mt-2 text-sm text-white/80">{description}</p>}
             </div>
-
-            <div
-                className={`overflow-hidden transition-all duration-300 ${
-                    isSectionCollapsed ? 'max-h-0' : 'max-h-96'
-                }`}
-            >
-                <ul className={`mt-2 space-y-1 ${isCollapsed ? 'text-center' : ''}`}>
-                    {items.map((item, index) => (
-                        <SidebarItem
-                            key={index}
+            <div className="mt-4 space-y-2">
+                {items.map((item) => {
+                    const active = isActive(item.to, item.exact);
+                    return (
+                        <Link
+                            key={item.label}
                             to={item.to}
-                            icon={item.icon}
-                            label={item.label}
-                            isCollapsed={isCollapsed}
-                        />
-                    ))}
-                </ul>
+                            className={`flex items-center gap-3 rounded-2xl border px-3 py-2.5 transition-all duration-200 ${
+                                active
+                                    ? 'border-white/30 bg-white text-slate-900 shadow-lg shadow-black/20'
+                                    : 'border-white/5 bg-white/5 text-white/80 hover:border-white/20 hover:bg-white/10'
+                            }`}
+                        >
+                            <span
+                                className={`flex h-10 w-10 items-center justify-center rounded-2xl ${
+                                    active ? 'bg-slate-900/5 text-slate-900' : 'bg-white/10 text-white'
+                                }`}
+                            >
+                                <i className={`bi ${item.icon} text-lg`}></i>
+                            </span>
+                            <div className="flex flex-1 flex-col">
+                                <span className={`text-sm font-semibold ${active ? 'text-slate-900' : 'text-white'}`}>
+                                    {item.label}
+                                </span>
+                                {item.helper && <span className="text-xs text-white/60">{item.helper}</span>}
+                            </div>
+                            {item.pill && (
+                                <span
+                                    className={`text-[10px] uppercase tracking-wide rounded-full px-2 py-1 ${
+                                        active ? 'bg-slate-900/10 text-slate-900' : 'bg-white/10 text-white/70'
+                                    }`}
+                                >
+                                    {item.pill}
+                                </span>
+                            )}
+                        </Link>
+                    );
+                })}
             </div>
-        </div>
+        </section>
     );
 };
 

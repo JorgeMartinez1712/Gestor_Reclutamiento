@@ -4,53 +4,54 @@ import { useAuth } from '../../../context/AuthContext';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import CustomModal from '../../common/CustomModal'; 
+import CustomModal from '../../common/CustomModal';
 
-const Header = ({ isSidebarOpen, isCollapsed }) => {
+const Header = () => {
   const { logout } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <header
-      className={`bg-bg p-4 flex justify-between items-center transition-all duration-300 ${
-        isSidebarOpen && !isCollapsed ? 'ml-64' : isCollapsed ? 'ml-16' : 'ml-0'
-      }`}
-    >
-      <div className="pl-4 py-2">
-        <Breadcrumbs isSidebarOpen={isSidebarOpen} isCollapsed={isCollapsed} />
-      </div>
+    <header className="sticky top-0 z-40 border-b border-gray-200/80 bg-white/85 backdrop-blur-xl">
+      <div className="flex items-center justify-between gap-6 px-8 py-4">
+        <div className="flex flex-col gap-2 text-left">
+          <span className="text-[11px] font-semibold tracking-[0.35em] text-gray-500">CONTROL DE RECLUTAMIENTO</span>
+          <Breadcrumbs />
+        </div>
 
-      <div className="flex items-center gap-4 pr-10">
-        <Tippy content="Ir a Perfil" placement="bottom">
-          <Link
-            to="/perfil"
-            className="flex items-center text-oscuro hover:text-hover focus:outline-none"
-          >
-            <i className="bi bi-person-circle text-2xl"></i>
-          </Link>
-        </Tippy>
+        <div className="flex items-center gap-3">
+          <Tippy content="Ir a Perfil" placement="bottom">
+            <Link
+              to="/perfil"
+              className="flex items-center gap-2 rounded-2xl border border-gray-200/80 px-4 py-2 text-xs font-semibold text-gray-700 transition hover:border-oscuro hover:text-oscuro"
+            >
+              <i className="bi bi-person-circle text-lg" />
+              <span>PERFIL</span>
+            </Link>
+          </Tippy>
 
-        <Tippy content="Cerrar Sesión" placement="bottom">
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center text-oscuro hover:text-hover focus:outline-none"
-          >
-            <i className="bi bi-box-arrow-right text-2xl"></i>
-          </button>
-        </Tippy>
+          <Tippy content="Cerrar Sesión" placement="bottom">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center gap-2 rounded-2xl border border-red-200 bg-red-50 px-4 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100"
+            >
+              <i className="bi bi-box-arrow-right text-lg" />
+              <span>SALIR</span>
+            </button>
+          </Tippy>
+        </div>
       </div>
       <CustomModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Confirmar Cierre de Sesión"
       >
-        <div className="flex items-center space-x-3 mb-4">
+        <div className="mb-4 flex items-center space-x-3">
           <p className="text-gray-700">¿Estás seguro de que quieres cerrar sesión?</p>
         </div>
         <div className="flex justify-end space-x-2">
           <button
             onClick={() => setIsModalOpen(false)}
-            className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+            className="rounded bg-gray-200 px-4 py-2 text-gray-700 transition hover:bg-gray-300"
           >
             Cancelar
           </button>
@@ -59,7 +60,7 @@ const Header = ({ isSidebarOpen, isCollapsed }) => {
               setIsModalOpen(false);
               logout();
             }}
-            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            className="rounded bg-red-600 px-4 py-2 text-white transition hover:bg-red-700"
           >
             Confirmar
           </button>

@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
-const Breadcrumbs = ({ isSidebarOpen, isCollapsed }) => {
+const Breadcrumbs = () => {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
 
@@ -35,10 +35,7 @@ const Breadcrumbs = ({ isSidebarOpen, isCollapsed }) => {
   }
 
   return (
-    <nav
-      className={`text-sm text-oscuro transition-all duration-300 ${isSidebarOpen && !isCollapsed ? 'ml-64' : isCollapsed ? 'ml-16' : 'ml-0'
-        }`}
-    >
+    <nav className="text-sm text-oscuro">
       <ul className="flex space-x-2">
         <li>
           <Tippy content="Ir al Inicio" placement="bottom">

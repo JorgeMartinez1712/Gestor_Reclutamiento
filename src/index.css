@@ -2,10 +2,14 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-bg: #fdf4ff;
-  --color-claro: #d946ef;
-  --color-oscuro: #701a75;
-  --color-hover: #4a044e;
+  --color-bg: #f4f7ff;
+  --color-claro: #5b47ff; /* tono claro derivado de #1B059C */
+  --color-oscuro: #1B059C; /* color primario solicitado */
+  --color-hover: #12046f; /* hover más oscuro */
+}
+
+:root {
+  --input-focus-shadow: 0 6px 18px rgba(27,5,156,0.08);
 }
 
 body, html {

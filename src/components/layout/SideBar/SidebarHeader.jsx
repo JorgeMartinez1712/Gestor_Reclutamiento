@@ -5,7 +5,7 @@ const SidebarHeader = ({ isCollapsed }) => {
     <div className="p-4 flex justify-center items-center">
       <Link to="/">
         <img
-          src={isCollapsed ? '/assets/logo_pequeño.png' : '/assets/logo_cisneros.png'}
+          src={isCollapsed ? '/assets/logo_pequeño.png' : '/assets/logo.png'}
           alt="Logo"
           className={`transition-all duration-300 ${isCollapsed ? 'h-6' : 'h-10'}`}
         />
