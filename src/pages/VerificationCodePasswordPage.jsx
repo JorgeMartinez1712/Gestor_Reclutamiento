@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import useProfile from '../../hooks/useProfile';
-import PasswordRequirements from '../../components/common/PasswordRequeriments';
+import useProfile from '../hooks/useProfile';
+import PasswordRequirements from '../components/common/PasswordRequeriments';
 import { FaSpinner } from 'react-icons/fa';
 
 const VerificationCodePasswordPage = () => {

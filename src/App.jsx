@@ -3,7 +3,7 @@ import './App.css';
 import AllRoutes from './routes/AllRoutes';
 import Header from './components/layout/Header/Header';
 import Footer from './components/layout/Footer/Footer';
-import NavigationRail from './components/layout/SideBar/NavigationRail';
+import Navigation from './components/layout/Navigation/Navigation';
 import { useAuth } from './context/AuthContext';
 import { useLocation } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
@@ -27,7 +27,7 @@ function App() {
     <div className="app-container">
       {showNavigation ? (
         <div className="min-h-screen">
-          <NavigationRail isOpen={isSidebarOpen} />
+          <Navigation isOpen={isSidebarOpen} />
           <div className={`flex flex-1 flex-col transition-all duration-300 ${showNavigation ? 'pl-72' : ''}`}>
             <Header />
             <main className="main-content">

@@ -1,4 +1,4 @@
-import VerificactionCodeForm from '../../components/login/VerificactionCodeForm';
+import VerificactionCodeForm from '../components/login/VerificactionCodeForm';
 
 const VerificactionCodePage = () => {
   return (

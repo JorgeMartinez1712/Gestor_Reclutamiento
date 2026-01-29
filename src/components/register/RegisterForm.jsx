@@ -95,11 +95,11 @@ const RegisterForm = () => {
         <div className="text-text-base max-w-xl">
           <p className="uppercase tracking-[0.3em] text-sm text-text-muted mb-4">Experiencia de registro</p>
           <h2 className="text-3xl md:text-5xl font-semibold leading-tight mb-6">
-            Diseña procesos de selección colaborativos desde el primer clic.
+            Diseï¿½a procesos de selecciï¿½n colaborativos desde el primer clic.
           </h2>
           <p className="text-base md:text-lg text-text-muted leading-relajada">
-            Configura tu panel personal, comparte vacantes con tu equipo y mantén trazabilidad total del pipeline. Un
-            registro te acerca a contrataciones más estratégicas.
+            Configura tu panel personal, comparte vacantes con tu equipo y mantï¿½n trazabilidad total del pipeline. Un
+            registro te acerca a contrataciones mï¿½s estratï¿½gicas.
           </p>
         </div>
         <div className="w-full max-w-md bg-glass-card border border-glass-border backdrop-blur-2xl shadow-2xl rounded-2xl p-8 text-text-base">
@@ -122,7 +122,7 @@ const RegisterForm = () => {
             </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-text-muted">
-                Correo Electrónico
+                Correo Electrï¿½nico
               </label>
               <input
                 type="email"
@@ -137,7 +137,7 @@ const RegisterForm = () => {
             </div>
             <div>
               <label htmlFor="phone_number" className="block text-sm font-medium text-text-muted">
-                Número de Teléfono
+                Nï¿½mero de Telï¿½fono
               </label>
               <input
                 type="text"
@@ -152,7 +152,7 @@ const RegisterForm = () => {
             </div>
             <div className="relative">
               <label htmlFor="password" className="block text-sm font-medium text-text-muted">
-                Contraseña
+                Contraseï¿½a
               </label>
               <div className="relative">
                 <input
@@ -177,7 +177,7 @@ const RegisterForm = () => {
             </div>
             <div className="relative">
               <label htmlFor="password_confirmation" className="block text-sm font-medium text-text-muted">
-                Repetir Contraseña
+                Repetir Contraseï¿½a
               </label>
               <div className="relative">
                 <input
@@ -211,9 +211,9 @@ const RegisterForm = () => {
           </form>
           {error && <p className="text-sm text-red-400 text-center mt-3">{error}</p>}
           <p className="text-sm font-light text-text-muted mt-6 text-center">
-            ¿Ya tienes una cuenta?{' '}
+            ï¿½Ya tienes una cuenta?{' '}
             <Link to="/login" className="font-medium text-text-base hover:underline">
-              Inicia sesión
+              Inicia sesiï¿½n
             </Link>
           </p>
         </div>

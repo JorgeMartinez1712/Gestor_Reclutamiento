@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import ForgotPasswordForm from '../../components/forgotPassword/ForgotPasswordForm';
+import ForgotPasswordForm from '../components/forgotPassword/ForgotPasswordForm';
 
 const ResetPasswordPage = () => {
   const location = useLocation();

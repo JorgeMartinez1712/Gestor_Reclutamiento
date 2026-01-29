@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import ProfileForm from '../../components/Profile/ProfileForm';
+import { useAuth } from '../context/AuthContext';
+import ProfileForm from '../components/Profile/ProfileForm';
 import { FaSpinner } from 'react-icons/fa';
-import SuccessNotification from '../../components/common/SuccessNotification';
+import SuccessNotification from '../components/common/SuccessNotification';
 
 const ProfilePage = () => {
   const { user, authLoading, isAuthenticated } = useAuth();

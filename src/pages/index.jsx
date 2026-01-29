@@ -1,12 +1,12 @@
-import LoginPage from './LoginPage/LoginPage';
-import RegisterPage from './RegisterPage/RegisterPage'; 
-import HomePage from './HomePage/HomePage';
-import ForgotPasswordPage from './ForgotPasswordPage/ForgotPasswordPage';
-import NotFoundPage from './NotFoundPage/NotFoundPage';
-import VerificationCodePasswordPage from './ProfilePage/VerificationCodePasswordPage';
-import ProfilePage from './ProfilePage/ProfilePage'; 
-import VerificactionCodePage from './LoginPage/VerificactionCodePage';
-import ResetPasswordPage from './ForgotPasswordPage/ResetPasswordPage';
+import LoginPage from './LoginPage';
+import RegisterPage from './RegisterPage'; 
+import HomePage from './HomePage';
+import ForgotPasswordPage from './ForgotPasswordPage';
+import NotFoundPage from './NotFoundPage';
+import VerificationCodePasswordPage from './VerificationCodePasswordPage';
+import ProfilePage from './ProfilePage'; 
+import VerificactionCodePage from './VerificactionCodePage';
+import ResetPasswordPage from './ResetPasswordPage';
 
 export {
   LoginPage,

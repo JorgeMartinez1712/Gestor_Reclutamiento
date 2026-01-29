@@ -26,7 +26,7 @@ Arquitectura clave
 Checklist para nuevas pantallas
 1. **Hook**: crea `src/hooks/use<Feature>.jsx` y usa `axiosInstance` para toda IO.
 2. **Componentes**: arma UI en `src/components/<Feature>/` (listas/tablas, formularios, modales) reutilizando patrones existentes.
-3. **Página**: `src/pages/<Feature>Page/<Feature>Page.jsx` con header (texto izquierda + CTA derecha), spinner y contenido principal.
+3. **Página**: `src/pages/<Feature>Page.jsx` con header (texto izquierda + CTA derecha), spinner y contenido principal.
 4. **Export**: agrega la página al barrel `src/pages/index.jsx`.
 5. **Ruta**: importa la página en `src/routes/AllRoutes.jsx` y añade tu `<Route>` (envuelto en `PrivateRoute` si aplica).
 
