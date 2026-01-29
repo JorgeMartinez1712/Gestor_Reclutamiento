@@ -152,9 +152,8 @@ const ProfileForm = ({ onSaveSuccess, onEmailSendSuccess }) => {
 
         <div className={`${glassPanel} p-6`}>
           <div className="flex flex-col gap-1 mb-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-text-muted">Gestión de perfil</p>
-            <h3 className="text-2xl font-semibold">Editar información</h3>
-            <p className="text-text-muted">Actualiza tu nombre y número de contacto o envía un correo para restablecer tu contraseña.</p>
+            <h3 className="text-2xl font-semibold flex">Editar información</h3>
+            <p className="text-text-muted flex">Actualiza tu nombre y número de contacto o envía un correo para restablecer tu contraseña.</p>
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>

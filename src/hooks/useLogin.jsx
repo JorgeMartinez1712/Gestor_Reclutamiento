@@ -71,7 +71,7 @@ const useLogin = () => {
     try {
       const adminUser = {
         id: 'admin-bypass',
-        name: 'Administrador Demo',
+        name: 'Jorge',
         email: 'admin',
         role: 'ADMIN',
         isBypassUser: true,

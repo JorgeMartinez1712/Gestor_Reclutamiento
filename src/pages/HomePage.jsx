@@ -6,7 +6,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 const HomePage = () => {
   const { user } = useAuth();
-  const firstName = user?.name?.split(' ')[0] || user?.first_name || 'Recruiter';
+  const firstName = user?.name?.split(' ')[0] || user?.first_name || 'Usuario';
   const dateFormatter = new Intl.DateTimeFormat('es-ES', {
     weekday: 'long',
     day: 'numeric',
@@ -162,10 +162,9 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-app-bg text-text-base px-6 py-8 lg:px-12 space-y-8">
-      <header className="space-y-1">
-        <p className="text-sm uppercase tracking-[0.3em] text-text-muted">Panel de reclutamiento</p>
-        <h1 className="text-3xl lg:text-4xl font-semibold">¡Hola, {firstName}! Así va el talento hoy</h1>
-        <p className="text-text-muted mt-3 mb-3">{formattedDate}</p>
+      <header className="flex flex-col gap-1 text-left">
+        <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">¡Hola, {firstName}! Así va el talento hoy</h1>
+        <p className="text-text-muted text-sm mt-2 mb-2">{formattedDate}</p>
       </header>
 
       <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">

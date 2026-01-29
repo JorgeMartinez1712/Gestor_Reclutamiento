@@ -48,9 +48,8 @@ const ProfilePage = () => {
 
       <div className="space-y-4">
         <div className="space-y-1">
-          <p className="text-sm uppercase tracking-[0.3em] text-text-muted">Cuenta</p>
-          <h1 className="text-3xl font-semibold">Mi Perfil</h1>
-          <p className="text-text-muted">Gestiona tu información personal y las credenciales de acceso.</p>
+          <h1 className="text-3xl font-semibold flex">Mi Perfil</h1>
+          <p className="text-text- flex">Gestiona tu información personal y las credenciales de acceso.</p>
         </div>
 
         <ProfileForm onSaveSuccess={handleProfileSaveSuccess} onEmailSendSuccess={handleEmailSendSuccess} />
