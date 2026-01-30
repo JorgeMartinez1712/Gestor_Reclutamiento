@@ -9,14 +9,15 @@ const quickActions = [
 const navLinks = [
   { label: 'Dashboard principal', description: 'Pulso general del talento', icon: 'bi bi-speedometer', to: '/' },
   { label: 'Filtro de selección', description: 'Etapas y conversiones', icon: 'bi bi-funnel', to: '/Filtros' },
-  { label: 'Vacantes activas', description: 'Procesos abiertos por área', icon: 'bi bi-list-task', to: '/vacantes' },
+  { label: 'Vacantes activas', description: 'Procesos abiertos por área', icon: 'bi bi-list-task', to: '/vacantes', exactMatch: true },
   { label: 'Reportes de desempeño', description: 'Indicadores y SLAs clave', icon: 'bi bi-clipboard-data', to: '/reportes' },
 ];
 
 const Navigation = ({ isOpen }) => {
   const location = useLocation();
 
-  const isActiveRoute = (to) => location.pathname === to || location.pathname.startsWith(`${to}/`);
+  const isActiveRoute = (to, { exactMatch } = {}) =>
+    exactMatch ? location.pathname === to : location.pathname === to || location.pathname.startsWith(`${to}/`);
 
   return (
     <aside
@@ -49,7 +50,7 @@ const Navigation = ({ isOpen }) => {
 
       <nav className="flex-1 overflow-y-auto px-4 pb-8 space-y-3">
         {navLinks.map((item) => {
-          const isActive = isActiveRoute(item.to);
+          const isActive = isActiveRoute(item.to, { exactMatch: item.exactMatch });
           return (
             <Link
               key={item.to}
