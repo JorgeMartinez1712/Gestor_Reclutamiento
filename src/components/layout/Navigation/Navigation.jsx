@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import fullLogo from '/assets/logo.png';
+import fullLogo from '/assets/logo-claro.png';
 
 const quickActions = [
   { label: 'Crear vacante', icon: 'bi bi-plus-square', to: '/vacantes/crear' },

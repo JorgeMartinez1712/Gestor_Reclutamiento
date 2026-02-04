@@ -4,7 +4,7 @@ import { FaSpinner } from 'react-icons/fa';
 import useLogin from '../../hooks/useLogin';
 import ErrorNotification from '../common/ErrorNotification';
 import loginBackground from '/assets/fondo_login.jpg';
-import logo from '/assets/logo.png';
+import logo from '/assets/logo-claro.png';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);

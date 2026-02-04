@@ -13,66 +13,28 @@ import { Bar } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const MOCK_VACANCIES = [
-  { id: 1, title: 'Desarrollador React Senior' },
-  { id: 2, title: 'Diseñador UI/UX de Producto' },
-  { id: 3, title: 'Especialista en Adquisición de Talento' }
+  { id: 'VAC-001', title: 'Arquitecto de Software Senior' },
+  { id: 'VAC-002', title: 'Desarrollador React Senior' },
+  { id: 'VAC-003', title: 'Gerente de Producto' },
+  { id: 'VAC-004', title: 'Científico de Datos' },
+  { id: 'VAC-005', title: 'Ingeniero de DevOps' },
+  { id: 'VAC-006', title: 'Líder de Investigación UX' },
 ];
 
 const MOCK_CANDIDATES = [
-  {
-    id: 101,
-    name: 'Ana García',
-    role: 'Desarrollador Frontend',
-    stage: 'Postulados',
-    matchScore: 92,
-    source: 'linkedin',
-    avatar: 'https://i.pravatar.cc/150?u=101'
-  },
-  {
-    id: 102,
-    name: 'Carlos Ruiz',
-    role: 'Desarrollador Frontend',
-    stage: 'Postulados',
-    matchScore: 65,
-    source: 'instagram',
-    avatar: 'https://i.pravatar.cc/150?u=102'
-  },
-  {
-    id: 103,
-    name: 'Sofía Lerman',
-    role: 'React Senior',
-    stage: 'Screening',
-    matchScore: 88,
-    source: 'linkedin',
-    avatar: 'https://i.pravatar.cc/150?u=103'
-  },
-  {
-    id: 104,
-    name: 'Miguel Ángel',
-    role: 'Fullstack',
-    stage: 'Entrevista',
-    matchScore: 95,
-    source: 'linkedin',
-    avatar: 'https://i.pravatar.cc/150?u=104'
-  },
-  {
-    id: 105,
-    name: 'Lucía Méndez',
-    role: 'Arquitecto Frontend',
-    stage: 'Oferta',
-    matchScore: 98,
-    source: 'linkedin',
-    avatar: 'https://i.pravatar.cc/150?u=105'
-  },
-  {
-    id: 106,
-    name: 'Javier Costa',
-    role: 'Desarrollador Jr',
-    stage: 'Screening',
-    matchScore: 78,
-    source: 'instagram',
-    avatar: 'https://i.pravatar.cc/150?u=106'
-  }
+  { id: 101, vacancyId: 'VAC-002', name: 'Ana García', role: 'Desarrollador Frontend', stage: 'Postulados', matchScore: 92, source: 'linkedin', avatar: 'https://i.pravatar.cc/150?u=101' },
+  { id: 102, vacancyId: 'VAC-002', name: 'Carlos Ruiz', role: 'Desarrollador Frontend', stage: 'Postulados', matchScore: 65, source: 'instagram', avatar: 'https://i.pravatar.cc/150?u=102' },
+  { id: 103, vacancyId: 'VAC-001', name: 'Sofía Lerman', role: 'React Senior', stage: 'Screening', matchScore: 88, source: 'linkedin', avatar: 'https://i.pravatar.cc/150?u=103' },
+  { id: 104, vacancyId: 'VAC-003', name: 'Miguel Ángel', role: 'Fullstack', stage: 'Entrevista', matchScore: 95, source: 'linkedin', avatar: 'https://i.pravatar.cc/150?u=104' },
+  { id: 105, vacancyId: 'VAC-001', name: 'Lucía Méndez', role: 'Arquitecto Frontend', stage: 'Oferta', matchScore: 98, source: 'linkedin', avatar: 'https://i.pravatar.cc/150?u=105' },
+  { id: 106, vacancyId: 'VAC-004', name: 'Javier Costa', role: 'Desarrollador Jr', stage: 'Screening', matchScore: 78, source: 'instagram', avatar: 'https://i.pravatar.cc/150?u=106' },
+
+  { id: 107, vacancyId: 'VAC-002', name: 'María Fernanda', role: 'Frontend', stage: 'Screening', matchScore: 81, source: 'linkedin', avatar: 'https://i.pravatar.cc/150?u=107' },
+  { id: 108, vacancyId: 'VAC-003', name: 'Diego Torres', role: 'Product Manager', stage: 'Postulados', matchScore: 72, source: 'linkedin', avatar: 'https://i.pravatar.cc/150?u=108' },
+  { id: 109, vacancyId: 'VAC-005', name: 'Natalia Ríos', role: 'DevOps', stage: 'Entrevista', matchScore: 85, source: 'instagram', avatar: 'https://i.pravatar.cc/150?u=109' },
+  { id: 110, vacancyId: 'VAC-005', name: 'Pablo Méndez', role: 'SRE Jr', stage: 'Postulados', matchScore: 60, source: 'linkedin', avatar: 'https://i.pravatar.cc/150?u=110' },
+  { id: 111, vacancyId: 'VAC-006', name: 'Clara Ruiz', role: 'UX Researcher', stage: 'Postulados', matchScore: 77, source: 'linkedin', avatar: 'https://i.pravatar.cc/150?u=111' },
+  { id: 112, vacancyId: 'VAC-004', name: 'Roberto Salas', role: 'Data Scientist', stage: 'Oferta', matchScore: 94, source: 'linkedin', avatar: 'https://i.pravatar.cc/150?u=112' },
 ];
 
 const PIPELINE_STAGES = [
@@ -87,12 +49,17 @@ const SelectionFilterPage = () => {
   const [selectedVacancy, setSelectedVacancy] = useState(MOCK_VACANCIES[0].id);
   const [candidates, setCandidates] = useState(MOCK_CANDIDATES);
 
+  const filteredCandidates = useMemo(() => {
+    if (!selectedVacancy) return candidates;
+    return candidates.filter((c) => String(c.vacancyId) === String(selectedVacancy));
+  }, [candidates, selectedVacancy]);
+
   const chartData = useMemo(() => {
     const counts = {
-      Postulados: candidates.length,
-      Screening: candidates.filter(c => ['Screening', 'Entrevista', 'Oferta'].includes(c.stage)).length,
-      Entrevista: candidates.filter(c => ['Entrevista', 'Oferta'].includes(c.stage)).length,
-      Oferta: candidates.filter(c => c.stage === 'Oferta').length,
+      Postulados: filteredCandidates.filter(c => c.stage === 'Postulados').length,
+      Screening: filteredCandidates.filter(c => c.stage === 'Screening').length,
+      Entrevista: filteredCandidates.filter(c => c.stage === 'Entrevista').length,
+      Oferta: filteredCandidates.filter(c => c.stage === 'Oferta').length,
     };
 
     return {
@@ -119,7 +86,7 @@ const SelectionFilterPage = () => {
         },
       ],
     };
-  }, [candidates]);
+  }, [filteredCandidates]);
 
   const chartOptions = {
     indexAxis: 'y',
@@ -179,7 +146,7 @@ const SelectionFilterPage = () => {
             <select
               className="appearance-none bg-glass-card border border-glass-border text-text-base py-2.5 pl-4 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-secondary cursor-pointer min-w-[240px]"
               value={selectedVacancy}
-              onChange={(e) => setSelectedVacancy(Number(e.target.value))}
+              onChange={(e) => setSelectedVacancy(e.target.value)}
             >
               {MOCK_VACANCIES.map(v => (
                 <option key={v.id} value={v.id} className="bg-app-bg text-text-base">
@@ -231,8 +198,8 @@ const SelectionFilterPage = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 flex-1 h-full overflow-hidden">
-        {PIPELINE_STAGES.map((stage) => {
-          const stageCandidates = candidates.filter(c => c.stage === stage.key);
+          {PIPELINE_STAGES.map((stage) => {
+          const stageCandidates = filteredCandidates.filter(c => c.stage === stage.key);
 
           return (
             <div key={stage.key} className="flex flex-col h-full min-h-[500px] bg-glass-card/30 border border-glass-border rounded-xl backdrop-blur-sm">
