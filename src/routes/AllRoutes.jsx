@@ -3,7 +3,7 @@ import {
   LoginPage, RegisterPage, ForgotPasswordPage, NotFoundPage,
   HomePage, VerificactionCodePage, ProfilePage, VerificationCodePasswordPage,
   ResetPasswordPage, CreateVacancyPage, CandidatesPage, SelectionFilterPage,
-  ActiveVacanciesPage, ReportsPage,
+  ActiveVacanciesPage, ReportsPage, SkillsChatPage,
 } from '../pages';
 import PrivateRoute from './PrivateRoute';
 
@@ -53,6 +53,14 @@ const AllRoutes = () => {
         element={
           <PrivateRoute>
             <ReportsPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/skills/chat"
+        element={
+          <PrivateRoute>
+            <SkillsChatPage />
           </PrivateRoute>
         }
       />

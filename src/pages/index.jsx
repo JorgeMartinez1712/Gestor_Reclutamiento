@@ -12,6 +12,7 @@ import CandidatesPage from './CandidatesPage';
 import SelectionFilterPage from './SelectionFilterPage';
 import ActiveVacanciesPage from './ActiveVacanciesPage';
 import ReportsPage from './ReportsPage';
+import SkillsChatPage from './SkillsChatPage';
 
 export {
   LoginPage,
@@ -28,4 +29,5 @@ export {
   SelectionFilterPage,
   ActiveVacanciesPage,
   ReportsPage,
+  SkillsChatPage,
 };

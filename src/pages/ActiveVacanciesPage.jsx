@@ -278,13 +278,6 @@ const ActiveVacanciesPage = () => {
               <div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-text-muted">{vacancy.applications} candidatos aplicados</span>
-                  <span className="font-semibold text-white">{vacancy.progress}%</span>
-                </div>
-                <div className="mt-2 h-2 w-full rounded-full bg-white/10">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-secondary"
-                    style={{ width: `${vacancy.progress}%` }}
-                  ></div>
                 </div>
               </div>
 

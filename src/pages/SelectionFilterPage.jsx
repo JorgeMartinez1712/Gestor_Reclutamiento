@@ -41,18 +41,25 @@ const PIPELINE_STAGES = [
   { key: 'Postulados', label: 'Postulados', color: 'border-blue-500' },
   { key: 'Screening', label: 'Evaluación Inicial', color: 'border-purple-500' },
   { key: 'Entrevista', label: 'Entrevista Técnica', color: 'border-cyan-500' },
-  { key: 'Oferta', label: 'Oferta & Cierre', color: 'border-green-400' }
+  { key: 'Oferta', label: 'Oferta', color: 'border-green-400' },
+  { key: 'Contratado', label: 'Contratado', color: 'border-emerald-400' }
 ];
 
 
 const SelectionFilterPage = () => {
   const [selectedVacancy, setSelectedVacancy] = useState(MOCK_VACANCIES[0].id);
   const [candidates, setCandidates] = useState(MOCK_CANDIDATES);
+  const [draggedCandidateId, setDraggedCandidateId] = useState(null);
 
   const filteredCandidates = useMemo(() => {
     if (!selectedVacancy) return candidates;
     return candidates.filter((c) => String(c.vacancyId) === String(selectedVacancy));
   }, [candidates, selectedVacancy]);
+
+  const draggingCandidate = useMemo(() => {
+    if (!draggedCandidateId) return null;
+    return candidates.find((c) => String(c.id) === String(draggedCandidateId)) || null;
+  }, [candidates, draggedCandidateId]);
 
   const chartData = useMemo(() => {
     const counts = {
@@ -60,25 +67,28 @@ const SelectionFilterPage = () => {
       Screening: filteredCandidates.filter(c => c.stage === 'Screening').length,
       Entrevista: filteredCandidates.filter(c => c.stage === 'Entrevista').length,
       Oferta: filteredCandidates.filter(c => c.stage === 'Oferta').length,
+      Contratado: filteredCandidates.filter(c => c.stage === 'Contratado').length,
     };
 
     return {
-      labels: ['Postulados', 'Evaluación Inicial', 'Entrevista', 'Oferta'],
+      labels: ['Postulados', 'Evaluación Inicial', 'Entrevista', 'Oferta', 'Contratado'],
       datasets: [
         {
           label: 'Candidatos Activos',
-          data: [counts.Postulados, counts.Screening, counts.Entrevista, counts.Oferta],
+          data: [counts.Postulados, counts.Screening, counts.Entrevista, counts.Oferta, counts.Contratado],
           backgroundColor: [
             'rgba(139, 92, 246, 0.7)',
             'rgba(99, 102, 241, 0.7)',
             'rgba(6, 182, 212, 0.7)',
             'rgba(52, 211, 153, 0.7)',
+            'rgba(16, 185, 129, 0.7)'
           ],
           borderColor: [
             'rgba(139, 92, 246, 1)',
             'rgba(99, 102, 241, 1)',
             'rgba(6, 182, 212, 1)',
             'rgba(52, 211, 153, 1)',
+            'rgba(16, 185, 129, 1)'
           ],
           borderWidth: 1,
           borderRadius: 4,
@@ -114,17 +124,30 @@ const SelectionFilterPage = () => {
     }
   };
 
-  const handleMoveStage = (candidateId) => {
+  const handleDragStart = (event, candidateId) => {
+    event.dataTransfer.setData('text/plain', String(candidateId));
+    event.dataTransfer.effectAllowed = 'move';
+    setDraggedCandidateId(candidateId);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedCandidateId(null);
+  };
+
+  const handleDropCandidate = (event, targetStage) => {
+    event.preventDefault();
+    const droppedId = event.dataTransfer.getData('text/plain');
+    const candidateId = droppedId || draggedCandidateId;
+    if (!candidateId) return;
+
     setCandidates((prev) =>
-      prev.map((c) => {
-        if (c.id !== candidateId) return c;
-        const currentIndex = PIPELINE_STAGES.findIndex((s) => s.key === c.stage);
-        if (currentIndex < PIPELINE_STAGES.length - 1) {
-          return { ...c, stage: PIPELINE_STAGES[currentIndex + 1].key };
-        }
-        return c;
-      })
+      prev.map((c) =>
+        String(c.id) === String(candidateId)
+          ? { ...c, stage: targetStage }
+          : c
+      )
     );
+    setDraggedCandidateId(null);
   };
 
   return (
@@ -197,12 +220,23 @@ const SelectionFilterPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 flex-1 h-full overflow-hidden">
+      <div className="flex items-center gap-2 text-xs text-text-muted">
+        <i className="bi bi-arrows-move"></i>
+        <span>Arrastra candidatos entre columnas para cambiar la etapa.</span>
+      </div>
+
+        <div className="w-full flex gap-4 flex-nowrap overflow-x-hidden pb-4">
           {PIPELINE_STAGES.map((stage) => {
           const stageCandidates = filteredCandidates.filter(c => c.stage === stage.key);
+          const isActiveDropZone = Boolean(draggingCandidate && stage.key !== draggingCandidate.stage);
 
           return (
-            <div key={stage.key} className="flex flex-col h-full min-h-[500px] bg-glass-card/30 border border-glass-border rounded-xl backdrop-blur-sm">
+            <div
+              key={stage.key}
+              className={`flex-1 flex flex-col h-full min-h-[500px] min-w-0 bg-glass-card/30 border border-glass-border rounded-xl backdrop-blur-sm transition-colors ${isActiveDropZone ? 'border-brand-primary/60 bg-brand-primary/5 shadow-[0_0_20px_rgba(139,92,246,0.15)]' : ''}`}
+              onDragOver={(event) => event.preventDefault()}
+              onDrop={(event) => handleDropCandidate(event, stage.key)}
+            >
               <div className={`p-4 border-b border-glass-border border-t-4 ${stage.color} rounded-t-xl bg-app-bg/50`}>
                 <div className="flex items-center justify-between">
                   <h3 className="font-semibold text-text-base">{stage.label}</h3>
@@ -223,8 +257,10 @@ const SelectionFilterPage = () => {
                     <CandidateCard
                       key={candidate.id}
                       candidate={candidate}
-                      onMove={() => handleMoveStage(candidate.id)}
-                      isLastStage={stage.key === 'Oferta'}
+                      isLastStage={stage.key === 'Contratado'}
+                      isDragging={String(candidate.id) === String(draggedCandidateId)}
+                      onDragStart={(event) => handleDragStart(event, candidate.id)}
+                      onDragEnd={handleDragEnd}
                     />
                   ))
                 )}
@@ -237,7 +273,7 @@ const SelectionFilterPage = () => {
   );
 };
 
-const CandidateCard = ({ candidate, onMove, isLastStage }) => {
+const CandidateCard = ({ candidate, isLastStage, isDragging, onDragStart, onDragEnd }) => {
   const getScoreColor = (score) => {
     if (score >= 90) return 'text-green-400 bg-green-400/10 border-green-400/20';
     if (score >= 80) return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20';
@@ -245,13 +281,18 @@ const CandidateCard = ({ candidate, onMove, isLastStage }) => {
   };
 
   return (
-    <div className="group relative p-3 rounded-lg bg-glass-card border border-glass-border hover:border-brand-primary/50 transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-brand-primary/5">
+    <div
+      className={`group relative p-2 rounded-lg bg-glass-card border border-glass-border hover:border-brand-primary/50 transition-all duration-200 shadow-sm hover:shadow-lg hover:shadow-brand-primary/5 ${isDragging ? 'opacity-60 scale-[0.985]' : ''}`}
+      draggable
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+    >
       <div className="flex items-start gap-3">
         <div className="relative">
           <img
             src={candidate.avatar}
             alt={candidate.name}
-            className="w-10 h-10 rounded-full object-cover border border-glass-border group-hover:border-brand-secondary transition-colors"
+            className="w-8 h-8 rounded-full object-cover border border-glass-border group-hover:border-brand-secondary transition-colors"
           />
 
           <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-app-bg flex items-center justify-center border border-glass-border shadow-sm">
@@ -266,35 +307,26 @@ const CandidateCard = ({ candidate, onMove, isLastStage }) => {
         </div>
 
         <div className="flex-1 min-w-0">
-          <h4 className="text-sm font-semibold text-text-base truncate">{candidate.name}</h4>
-          <p className="text-xs text-text-muted truncate mb-1">{candidate.role}</p>
+          <h4 className="text-xs font-semibold text-text-base truncate">{candidate.name}</h4>
+          <p className="text-[9px] text-text-muted truncate mb-1">{candidate.role}</p>
 
 
-          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium border ${getScoreColor(candidate.matchScore)}`}>
-            <i className="bi bi-activity"></i> {candidate.matchScore}% Match
+          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-medium border ${getScoreColor(candidate.matchScore)}`}>
+            <i className="bi bi-activity"></i> {candidate.matchScore}%
           </span>
         </div>
       </div>
 
-      {!isLastStage && (
-        <div className="mt-3 pt-3 border-t border-glass-border flex justify-end">
-          <button
-            onClick={onMove}
-            className="text-[10px] font-medium text-text-muted hover:text-brand-secondary flex items-center gap-1 transition-colors group/btn"
-          >
-            Mover siguiente etapa
-            <i className="bi bi-arrow-right group-hover/btn:translate-x-0.5 transition-transform"></i>
-          </button>
-        </div>
-      )}
-
-      {isLastStage && (
-        <div className="mt-3 pt-3 border-t border-glass-border flex justify-end">
-          <span className="text-[10px] font-medium text-green-400 flex items-center gap-1">
-            <i className="bi bi-check-circle-fill"></i> Completado
+      <div className="mt-3 pt-3 border-t border-glass-border flex items-center justify-between text-[10px] text-text-muted">
+        <span className="flex items-center gap-1">
+          <i className="bi bi-arrows-move"></i> Arrastra para mover
+        </span>
+        {isLastStage && (
+          <span className="text-green-400 flex items-center gap-1">
+            <i className="bi bi-check-circle-fill"></i> Contratado
           </span>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
