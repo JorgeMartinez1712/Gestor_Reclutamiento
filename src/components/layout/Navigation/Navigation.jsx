@@ -11,7 +11,7 @@ const navLinks = [
   { label: 'Filtro de selección', description: 'Etapas y conversiones', icon: 'bi bi-funnel', to: '/Filtros' },
   { label: 'Vacantes activas', description: 'Procesos abiertos por área', icon: 'bi bi-list-task', to: '/vacantes', exactMatch: true },
   { label: 'Reportes de desempeño', description: 'Indicadores y SLAs clave', icon: 'bi bi-clipboard-data', to: '/reportes' },
-  { label: 'Diseñador de skills', description: 'Chatbot para definir perfiles', icon: 'bi bi-robot', to: '/skills/chat' },
+  { label: 'Diseñador de skills', description: 'Chatbot para definir perfiles', icon: 'bi bi-robot', to: '/chat' },
 ];
 
 const Navigation = ({ isOpen }) => {

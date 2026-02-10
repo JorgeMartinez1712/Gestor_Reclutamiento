@@ -27,11 +27,9 @@ const SkillsChatPage = () => {
 
   const sendPromptAction = async () => {
     if (!prompt.trim() || isLoading) return;
-    // limpiar historial antes de enviar para no conservar mensajes previos
     try {
       resetChat();
     } catch (e) {
-      // ignore
     }
     await sendPrompt(prompt);
     setPrompt('');
@@ -77,8 +75,7 @@ const SkillsChatPage = () => {
         <section className="rounded-3xl border border-glass-border bg-gradient-to-br from-glass-card/90 to-glass-card/60 p-6 backdrop-blur-2xl shadow-[0_20px_50px_rgba(139,92,246,0.15)]">
           <div className="flex items-start gap-4">
             <div className="flex-1">
-              <h2 className="text-sm font-semibold text-white mb-1">Describe el puesto que necesitas cubrir</h2>
-              <p className="text-xs text-text-muted mb-4">La IA analizará tu descripción y generará habilidades técnicas, blandas, herramientas y nivel recomendado.</p>
+             
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="relative">
@@ -199,7 +196,6 @@ const SkillsChatPage = () => {
         )}
       </div>
 
-      {/** Formatear errores para mostrar solo el cuerpo cuando venga encapsulado */}
       {(() => {
         const formatErrorMessage = (err) => {
           if (!err) return '';

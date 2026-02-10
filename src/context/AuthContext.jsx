@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../api/axiosInstance';
 
 const AuthContext = createContext();
 
@@ -12,19 +11,6 @@ export const AuthProvider = ({ children }) => {
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
-  const fetchUserDetail = async (userId) => {
-    if (!userId) {
-      return null;
-    }
-    try {
-      const response = await axiosInstance.get(`/users/${userId}`);
-      const raw = response.data;
-      const normalized = (raw && (raw.user || raw.data?.user)) || (raw && raw.data?.data) || raw?.data || raw;
-      return normalized;
-    } catch (err) {
-      return null;
-    }
-  };
 
   const clearAuthData = useCallback(() => {
     setIsAuthenticated(false);
@@ -71,14 +57,7 @@ export const AuthProvider = ({ children }) => {
           const parsed = JSON.parse(storedUser);
           const baseUser = parsed?.id || parsed?.user?.id ? (parsed.id ? parsed : parsed.user) : (parsed?.data?.id ? parsed.data : parsed?.data?.data ? parsed.data.data : parsed || null);
           if (baseUser) {
-            let finalUser = baseUser;
-            const shouldFetchDetail = baseUser.id && !baseUser.isBypassUser;
-            if (shouldFetchDetail) {
-              const detailedUser = await fetchUserDetail(baseUser.id);
-              if (detailedUser && detailedUser.id) {
-                finalUser = detailedUser;
-              }
-            }
+            const finalUser = baseUser;
             setIsAuthenticated(true);
             setToken(storedToken);
             setUser(finalUser);
@@ -101,13 +80,7 @@ export const AuthProvider = ({ children }) => {
     const { skipUserDetail = false } = options;
     localStorage.setItem('token', authToken);
     localStorage.setItem('user', JSON.stringify(userData));
-    let finalUser = userData;
-    if (!skipUserDetail && userData?.id && !userData?.isBypassUser) {
-      const detailedUser = await fetchUserDetail(userData.id);
-      if (detailedUser && detailedUser.id) {
-        finalUser = detailedUser;
-      }
-    }
+    const finalUser = userData;
     setIsAuthenticated(true);
     setToken(authToken);
     setUser(finalUser);

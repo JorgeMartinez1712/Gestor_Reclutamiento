@@ -57,7 +57,7 @@ const AllRoutes = () => {
         }
       />
       <Route
-        path="/skills/chat"
+        path="/chat"
         element={
           <PrivateRoute>
             <SkillsChatPage />
