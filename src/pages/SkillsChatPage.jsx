@@ -25,11 +25,21 @@ const SkillsChatPage = () => {
   );
   const lastResponse = assistantMessages[assistantMessages.length - 1]?.data || null;
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const sendPromptAction = async () => {
     if (!prompt.trim() || isLoading) return;
+    // limpiar historial antes de enviar para no conservar mensajes previos
+    try {
+      resetChat();
+    } catch (e) {
+      // ignore
+    }
     await sendPrompt(prompt);
     setPrompt('');
+  };
+
+  const handleSubmit = async (event) => {
+    if (event?.preventDefault) event.preventDefault();
+    await sendPromptAction();
   };
 
   const handleExampleClick = (value) => {
@@ -38,23 +48,17 @@ const SkillsChatPage = () => {
 
   return (
     <div className="min-h-screen bg-app-bg text-text-base p-6 space-y-6">
-      <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div>
+      <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-4">
+        <div className="mb-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-primary to-brand-secondary">
-              <i className="bi bi-robot text-2xl text-white"></i>
-            </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">Diseñador de Skills IA</h1>
-              <p className="text-xs text-text-muted">Generador inteligente de perfiles de puesto</p>
+              <h1 className="text-2xl md:text-3xl font-bold text-white">Diseñador de Skills IA</h1>
+              <p className="text-sm text-text-muted flex">Generador inteligente de perfiles de puesto</p>
             </div>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <div className="rounded-2xl border border-glass-border bg-glass-card px-4 py-2.5 text-center backdrop-blur-sm">
-            <p className="text-[10px] uppercase tracking-wider text-text-muted">Consultas</p>
-            <p className="text-xl font-bold bg-gradient-to-r from-brand-primary to-brand-secondary bg-clip-text text-transparent">{assistantMessages.length}</p>
-          </div>
+         
           <button
             type="button"
             onClick={() => {
@@ -69,12 +73,9 @@ const SkillsChatPage = () => {
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto space-y-6">
+      <div className="space-y-6 w-full">
         <section className="rounded-3xl border border-glass-border bg-gradient-to-br from-glass-card/90 to-glass-card/60 p-6 backdrop-blur-2xl shadow-[0_20px_50px_rgba(139,92,246,0.15)]">
           <div className="flex items-start gap-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-primary/10">
-              <i className="bi bi-chat-left-text text-lg text-brand-primary"></i>
-            </div>
             <div className="flex-1">
               <h2 className="text-sm font-semibold text-white mb-1">Describe el puesto que necesitas cubrir</h2>
               <p className="text-xs text-text-muted mb-4">La IA analizará tu descripción y generará habilidades técnicas, blandas, herramientas y nivel recomendado.</p>
@@ -85,6 +86,12 @@ const SkillsChatPage = () => {
                     rows={4}
                     value={prompt}
                     onChange={(event) => setPrompt(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' && !event.shiftKey) {
+                        event.preventDefault();
+                        void sendPromptAction();
+                      }
+                    }}
                     placeholder="Ej: Necesito un Tech Lead con experiencia en React, Node.js, arquitectura de microservicios, que lidere equipos remotos y tenga inglés avanzado..."
                     className="w-full resize-none rounded-2xl border border-glass-border bg-app-bg/80 px-4 py-3 text-sm text-text-base placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand-primary/50 transition-all"
                     disabled={isLoading}
@@ -144,7 +151,7 @@ const SkillsChatPage = () => {
           </div>
         </section>
 
-        {messages.length === 0 ? (
+        {lastResponse == null ? (
           <section className="rounded-3xl border border-dashed border-glass-border bg-glass-card/30 p-12 backdrop-blur-sm">
             <div className="flex flex-col items-center text-center space-y-4">
               <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-primary/10">
@@ -179,33 +186,43 @@ const SkillsChatPage = () => {
           <section className="space-y-4">
             <div className="flex items-center gap-2 text-xs text-text-muted">
               <i className="bi bi-chat-square-dots"></i>
-              <span>Conversación ({messages.length} mensajes)</span>
+              <span>Respuesta</span>
             </div>
-            {messages.map((message) => (
-              <div key={message.id} className="flex flex-col gap-3">
-                {message.role === 'user' ? (
-                  <div className="flex justify-end">
-                    <div className="max-w-2xl rounded-3xl border border-brand-primary/40 bg-gradient-to-br from-brand-primary/20 to-brand-primary/10 px-5 py-3 text-sm text-white shadow-lg backdrop-blur-sm">
-                      <div className="flex items-start gap-3">
-                        <i className="bi bi-person-circle text-lg text-brand-primary mt-0.5"></i>
-                        <p className="leading-relaxed">{message.text}</p>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex justify-start">
-                    <div className="w-full">
-                      <ResponseCard data={message.data} />
-                    </div>
-                  </div>
-                )}
+            <div className="flex flex-col gap-3">
+              <div className="flex justify-start">
+                <div className="w-full">
+                  <ResponseCard data={lastResponse} />
+                </div>
               </div>
-            ))}
+            </div>
           </section>
         )}
       </div>
 
-      <ErrorNotification isOpen={Boolean(error)} message={error || ''} onClose={clearError} />
+      {/** Formatear errores para mostrar solo el cuerpo cuando venga encapsulado */}
+      {(() => {
+        const formatErrorMessage = (err) => {
+          if (!err) return '';
+          if (typeof err === 'string') {
+            try {
+              const parsed = JSON.parse(err);
+              if (parsed && typeof parsed === 'object') {
+                return parsed.response ?? parsed.message ?? err;
+              }
+            } catch (e) {
+              return err;
+            }
+          }
+          if (typeof err === 'object') {
+            return err.response ?? err.friendlyMessage ?? err.message ?? JSON.stringify(err);
+          }
+          return String(err);
+        };
+
+        const formattedError = formatErrorMessage(error);
+
+        return <ErrorNotification isOpen={Boolean(formattedError)} message={formattedError} onClose={clearError} />;
+      })()}
     </div>
   );
 };
@@ -219,7 +236,7 @@ const ResponseCard = ({ data }) => {
             <i className="bi bi-stars text-xl text-white"></i>
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-wider text-text-muted mb-1">Puesto sugerido</p>
+            <p className="text-[10px] uppercase tracking-wider text-text-muted mb-1 flex">Puesto sugerido</p>
             <p className="text-xl font-bold text-white leading-tight">{data.puestoSugerido}</p>
           </div>
         </div>
