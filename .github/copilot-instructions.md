@@ -27,6 +27,7 @@ Checklist para nuevas pantallas
 1. **Hook**: crea `src/hooks/use<Feature>.jsx` y usa `axiosInstance` para toda IO.
 2. **Componentes**: arma UI en `src/components/<Feature>/` (listas/tablas, formularios, modales) reutilizando patrones existentes.
 3. **Página**: `src/pages/<Feature>Page.jsx` con header (texto izquierda + CTA derecha), spinner y contenido principal.
+	- El header debe usar el formato estandar: <header className="flex flex-col gap-1 text-left"> con h1 (text-2xl md:text-3xl font-bold text-white tracking-tight) y un p de apoyo (text-text-muted text-sm mt-2 mb-2).
 4. **Export**: agrega la página al barrel `src/pages/index.jsx`.
 5. **Ruta**: importa la página en `src/routes/AllRoutes.jsx` y añade tu `<Route>` (envuelto en `PrivateRoute` si aplica).
 

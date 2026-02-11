@@ -18,16 +18,16 @@ const HomePage = () => {
 
   const mockData = {
     kpis: [
-      { id: 'vacancies', label: 'Vacantes Activas', value: 18, caption: 'Distribuidas en 6 áreas' },
-      { id: 'candidates', label: 'Total Candidatos', value: 482, caption: 'Acumulado en los últimos 30 días' },
+      { id: 'vacancies', label: 'Vacantes Activas', value: 7, caption: 'Distribuidas en 6 áreas' },
+      { id: 'candidates', label: 'Total Candidatos', value: 50, caption: 'Acumulado en los últimos 30 días' },
       { id: 'interviews', label: 'Entrevistas Agendadas', value: 11, caption: 'Prioridad para hoy' },
       { id: 'closing', label: 'Tiempo de Cierre', value: '14 días', caption: 'Promedio del último mes' },
     ],
     funnelStages: [
-      { label: 'Interesados', value: 245 },
-      { label: 'Filtrados', value: 168 },
-      { label: 'Entrevistas', value: 97 },
-      { label: 'Ofertas', value: 32 },
+      { label: 'Interesados', value: 50 },
+      { label: 'Filtrados', value: 30 },
+      { label: 'Entrevistas', value: 11 },
+      { label: 'Ofertas', value: 5 },
     ],
     talentSources: [
       { label: 'LinkedIn', value: 62 },
@@ -220,10 +220,10 @@ const HomePage = () => {
         <div className="mt-6 space-y-4">
           {mockData.recentCandidates.map((candidate) => (
             <div key={candidate.id} className={`flex items-center justify-between gap-4 ${glassPanel} p-4`}>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 justify-left">
                 <img src={candidate.avatar} alt={candidate.name} className="w-12 h-12 rounded-full object-cover" />
                 <div>
-                  <p className="font-medium">{candidate.name}</p>
+                  <p className="font-medium flex">{candidate.name}</p>
                   <p className="text-sm text-text-muted">{candidate.role}</p>
                 </div>
               </div>

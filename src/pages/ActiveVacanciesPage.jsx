@@ -215,8 +215,8 @@ const ActiveVacanciesPage = () => {
         <div>
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between mb-4">
             <div className="text-left">
-              <h1 className="text-3xl font-semibold text-white">Gestión de Procesos Activos</h1>
-              <p className="text-text-muted">Controla publicaciones, salud de los procesos y equipos evaluadores en tiempo real.</p>
+              <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Gestión de Procesos Activos</h1>
+              <p className="text-text-muted text-sm mt-2 mb-2">Controla publicaciones, salud de los procesos y equipos evaluadores en tiempo real.</p>
             </div>
             <button
               type="button"

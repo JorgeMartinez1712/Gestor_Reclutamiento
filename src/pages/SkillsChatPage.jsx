@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useChat from '../hooks/useChat';
 import ErrorNotification from '../components/common/ErrorNotification';
 
@@ -16,6 +17,7 @@ const categoryConfig = [
 ];
 
 const SkillsChatPage = () => {
+  const navigate = useNavigate();
   const { messages, isLoading, error, sendPrompt, resetChat, clearError } = useChat();
   const [prompt, setPrompt] = useState('');
 
@@ -44,31 +46,23 @@ const SkillsChatPage = () => {
     setPrompt(value);
   };
 
+  const handleCreateVacancy = () => {
+    if (!lastResponse) return;
+    navigate('/vacantes/crear', { state: { aiData: lastResponse } });
+  };
+
   return (
     <div className="min-h-screen bg-app-bg text-text-base p-6 space-y-6">
       <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-4">
         <div className="mb-4">
           <div className="flex items-center gap-3">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-white">Diseñador de Skills IA</h1>
-              <p className="text-sm text-text-muted flex">Generador inteligente de perfiles de puesto</p>
+              <h1 className="text-2xl md:text-3xl font-bold text-white">Diseñador de Habilidades Con IA</h1>
+              <p className="text-text-muted text-sm mt-2 mb-2 flex">Generador inteligente de perfiles</p>
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-3">
-         
-          <button
-            type="button"
-            onClick={() => {
-              resetChat();
-              setPrompt('');
-            }}
-            className="inline-flex items-center gap-2 rounded-2xl border border-glass-border bg-glass-card/50 px-4 py-2.5 text-sm font-medium text-text-muted backdrop-blur-sm transition-all hover:text-white hover:border-brand-primary/50"
-          >
-            <i className="bi bi-arrow-counterclockwise"></i>
-            Reiniciar
-          </button>
-        </div>
+        
       </header>
 
       <div className="space-y-6 w-full">
@@ -137,7 +131,7 @@ const SkillsChatPage = () => {
                       ) : (
                         <>
                           <i className="bi bi-stars"></i>
-                          Generar Skills
+                          Generar Habilidades
                         </>
                       )}
                     </button>
@@ -190,6 +184,16 @@ const SkillsChatPage = () => {
                 <div className="w-full">
                   <ResponseCard data={lastResponse} />
                 </div>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleCreateVacancy}
+                  className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-5 py-2.5 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(139,92,246,0.45)]"
+                >
+                  <i className="bi bi-briefcase"></i>
+                  Crear vacante
+                </button>
               </div>
             </div>
           </section>

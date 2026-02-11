@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -47,9 +48,21 @@ const PIPELINE_STAGES = [
 
 
 const SelectionFilterPage = () => {
-  const [selectedVacancy, setSelectedVacancy] = useState(MOCK_VACANCIES[0].id);
+  const location = useLocation();
+  const initialVacancyId = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    const vacancyId = params.get('vacancy');
+    if (!vacancyId) return MOCK_VACANCIES[0]?.id ?? '';
+    const exists = MOCK_VACANCIES.some((vacancy) => String(vacancy.id) === String(vacancyId));
+    return exists ? vacancyId : (MOCK_VACANCIES[0]?.id ?? '');
+  }, [location.search]);
+  const [selectedVacancy, setSelectedVacancy] = useState(initialVacancyId);
   const [candidates, setCandidates] = useState(MOCK_CANDIDATES);
   const [draggedCandidateId, setDraggedCandidateId] = useState(null);
+
+  useEffect(() => {
+    setSelectedVacancy(initialVacancyId);
+  }, [initialVacancyId]);
 
   const filteredCandidates = useMemo(() => {
     if (!selectedVacancy) return candidates;
@@ -158,7 +171,7 @@ const SelectionFilterPage = () => {
           <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
             Filtro de Selección Estratégico
           </h1>
-          <p className="text-text-muted text-sm mt-1 flex">
+          <p className="text-text-muted text-sm mt-2 mb-2 flex">
             Gestión operativa del talento y métricas de conversión.
           </p>
         </div>
